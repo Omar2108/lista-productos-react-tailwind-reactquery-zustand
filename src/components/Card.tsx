@@ -1,27 +1,41 @@
+import { useState } from "react";
 import { Products } from "../definitions/definitions";
+import classNames from "classnames";
 
 function Card(products: Products) {
 
+    const [isHovered, setIsHovered] = useState(false);
+
     return (
 
-        <div className="w-full relative group">
-            <div className="max-w-80 max-h-80 relative overflow-y-hidden ">
-                <div>
-                    <img className="w-full h-full" src={products.image} />
-                </div>
-            </div>
-            <div className="max-w-80 py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
-                <div className="flex items-center justify-between font-titleFont">
-                    <h2 className="text-lg text-primeColor font-bold">
-                        {products.title}
-                    </h2>
-                    <p className="text-[#767676] text-[14px]">${products.price}</p>
-                </div>
-                <div>
-                    <p className="text-[#767676] text-[14px]">{products.category}</p>
-                </div>
-            </div>
+        <div
+        className={classNames(
+          "w-full sm:w-64 bg-white shadow-lg rounded-lg overflow-hidden",
+          {
+            "hover:shadow-xl transition duration-300": !isHovered,
+            "transform scale-105": isHovered,
+          }
+        )}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <img
+          className="w-full h-32 object-cover"
+          src={products.image}
+          alt={products.title}
+        />
+        <div className="p-4">
+          <h3 className="text-gray-900 font-semibold">{products.title}</h3>
+          <p className="text-gray-600 mt-2">Category: {products.category}</p>
+          <p className="text-gray-600 mt-2">Price: ${products.price}</p>
+          <p className="text-gray-600 mt-2">
+            {products.rating.count > 0 ? `In Stock: ${products.rating.count}` : "Out of Stock"}
+          </p>
+          <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Add to Cart
+          </button>
         </div>
+      </div>
     )
 
 }

@@ -14,27 +14,27 @@ function App() {
 
 
   return (
-
-    <div className='container mx-auto my-2'>
+    <>
       <Header />
-      <div className="grid md:grid-cols-2  my-20 sm:grid-cols-1 lg:grid-cols-4 gap-4">
-        {
-          data?.map((product) => (
-            <Card
-              category={product.category}
-              image={product.image}
-              description={product.description}
-              price={product.price}
-              rating={product.rating}
-              title={product.title}
-              id={product.id}
-              key={product.id}
-            />
-          ))
-        }
+      <div className="flex justify-center my-14 items-center bg-gray-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {
+            data?.map((product) => (
+              <Card
+                category={product.category}
+                image={product.image}
+                description={product.description}
+                price={product.price}
+                rating={product.rating}
+                title={product.title}
+                id={product.id}
+                key={product.id}
+              />
+            ))
+          }
+        </div>
       </div>
-    </div>
-
+    </>
   )
 }
 
