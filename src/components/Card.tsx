@@ -1,21 +1,18 @@
 import { useState } from "react";
 import { Products } from "../definitions/definitions";
 import classNames from "classnames";
-import { useStoreCard } from "../store/addToCardStore";
-import { useAddToCart } from "../hooks/useProductToCard";
+import { useShoppingCart } from "../store/addToCardStore";
 
-function Card(products: Products) {
+function CardProduct(products: Products) {
 
     const [isHovered, setIsHovered] = useState(false);
-    const { addToCart: addToCartLocally } = useStoreCard();
 
-    const handleAddToCart = () => {
+    const addItem = useShoppingCart(state => state.addItem)
 
-        console.log(products);
 
-        addToCartLocally(products); // Agregar al carrito localmente usando Zustand
-        useAddToCart(products); // Enviar solicitud para agregar al carrito
-    };
+    const handlerAdd = (product: Products) => () => {
+        addItem(product)
+    }
 
     return (
 
@@ -59,7 +56,15 @@ function Card(products: Products) {
                     {products.rating.count > 0 ? `In Stock: ${products.rating.count}` : "Out of Stock"}
                 </p>
                 <button
-                    onClick={handleAddToCart}
+                    onClick={handlerAdd({
+                        id: products.id,
+                        title: products.title,
+                        price: products.price,
+                        description: products.description,
+                        category: products.category,
+                        image: products.image,
+                        rating: products.rating
+                    })}
                     className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
                     Add to Cart
@@ -71,4 +76,4 @@ function Card(products: Products) {
 
 }
 
-export default Card;
+export default CardProduct;
