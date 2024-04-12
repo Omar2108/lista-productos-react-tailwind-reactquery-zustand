@@ -1,14 +1,30 @@
 import { create } from 'zustand'
-import { ShoppingCart } from '../definitions/definitions';
+import { Products } from '../definitions/definitions';
 import { persist } from 'zustand/middleware';
+
+type CartItem = {
+    product: Products
+    quantity: number
+}
+
+type ShoppingCart = {
+    items: CartItem[]
+    addItem: (product: Products, quantity?: number) => void
+    removeItem: (productId: number) => void
+    increaseQuantity: (productId: number, quantity?: number) => void
+    decreaseQuantity: (productId: number, quantity?: number) => void
+    getTotalPrice: () => number
+    clearCart: () => void
+}
 
 
 export const useShoppingCart = create(
     persist<ShoppingCart>((set, get) => ({
         items: [],
-        addItem: (product, quantity = 1) => {
-            set({ items: [{ product, quantity }] })
-        },
+        addItem: (product, quantity = 1) =>
+            set((state) => ({ 
+                items: [...state.items, { product: product, quantity: quantity }] 
+            })),
         removeItem: productId => {
             const { items } = get()
 
@@ -20,9 +36,9 @@ export const useShoppingCart = create(
             const newItems = structuredClone(items)
             const itemIndex = newItems.findIndex(item => item.product.id === productId)
             const itemData = newItems[itemIndex]
-        
+
             newItems[itemIndex] = { ...itemData, quantity: itemData.quantity + quantity }
-        
+
             set({ items: newItems })
         },
         decreaseQuantity: (productId, quantity = 1) => {
@@ -31,17 +47,17 @@ export const useShoppingCart = create(
             const newItems = structuredClone(items)
             const itemIndex = newItems.findIndex(item => item.product.id === productId)
             const itemData = newItems[itemIndex]
-        
+
             const newQuantity = itemData.quantity !== 1 ? itemData.quantity - quantity : quantity
-        
+
             newItems[itemIndex] = { ...itemData, quantity: newQuantity }
-        
+
             set({ items: newItems })
         },
-        getTotalPrice: () => { 
+        getTotalPrice: () => {
             const { items } = get()
 
-            return items.reduce((total, item) => total + item.product.price * item.quantity, 0) 
+            return items.reduce((total, item) => total + item.product.price * item.quantity, 0)
         },
         clearCart: () => set({ items: [] }),
     }), { name: 'storage-shoppingCart' })
