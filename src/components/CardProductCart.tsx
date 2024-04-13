@@ -34,7 +34,7 @@ function CardProductCart(item: CartItem) {
                 <p className="text-gray-700">{item.product.price}</p>
 
                 <button onClick={handlerDecreaseQuantity(item.product.id)} className="bg-gray-300 text-gray-600 px-4 py-2 rounded-l">-</button>
-                <input className="w-16 text-center border" type="number" value={item.quantity} min="1"></input>
+                <input className="w-16 text-center border" type="number" value={item.quantity} min="1" readOnly></input>
                 <button onClick={handlerIncreaseQuantity(item.product.id)} className="bg-gray-300 text-gray-600 px-4 py-2 rounded-r">+</button>
 
                 <p className="text-xl font-bold text-gray-800">Total: ${item.quantity * item.product.price}</p>
