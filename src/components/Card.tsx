@@ -14,6 +14,8 @@ function CardProduct(products: Products) {
         addItem(product)
     }
 
+    const link = `product/${products.id}`
+
     return (
 
         <div
@@ -34,6 +36,7 @@ function CardProduct(products: Products) {
                     "group-hover:opacity-75": isHovered,
                 })}
             >
+
                 <img
                     className="w-full h-32 object-cover transition-opacity duration-300"
                     src={products.image}
@@ -49,7 +52,7 @@ function CardProduct(products: Products) {
                 ></div>
             </div>
             <div className="p-4">
-                <h3 className="text-gray-900 font-semibold">{products.title}</h3>
+                <a href={link}><h3 className="text-gray-900 font-semibold">{products.title}</h3></a>
                 <p className="text-gray-600 mt-2">Category: {products.category}</p>
                 <p className="text-gray-600 mt-2">Price: ${products.price}</p>
                 <p className="text-gray-600 mt-2">
