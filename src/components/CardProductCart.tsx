@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { CartItem } from '../definitions/definitions';
 import { useShoppingCart } from '../store/addToCardStore';
+import PaymentModal from './PaymentModal';
 
 function CardProductCart(item: CartItem) {
+
+    const [showModal, setShowModal] = useState(false);
 
     const increaseQuantity = useShoppingCart(state => state.increaseQuantity)
     const decreaseQuantity = useShoppingCart(state => state.decreaseQuantity)
@@ -22,6 +26,13 @@ function CardProductCart(item: CartItem) {
     }
 
 
+    const handlerModalclose = ()=>{
+        setShowModal(false)
+    }
+
+  
+
+
     return (
         <>
             <div className="bg-gray-200 p-4">
@@ -38,9 +49,11 @@ function CardProductCart(item: CartItem) {
                 <button onClick={handlerIncreaseQuantity(item.product.id)} className="bg-gray-300 text-gray-600 px-4 py-2 rounded-r">+</button>
 
                 <p className="text-xl font-bold text-gray-800">Total: ${item.quantity * item.product.price}</p>
-                <button className="bg-blue-500 text-white p-2">Buy</button>
+                <button onClick={() => setShowModal(true)} className="bg-blue-500 text-white p-2">Buy</button>
                 <button onClick={handlerRemove(item.product.id)} className="bg-red-500 text-white p-2">Remove product</button>
             </div>
+
+            {showModal && <PaymentModal onClose={handlerModalclose} />}
         </>
     )
 }

@@ -26,3 +26,12 @@ export interface CartItem {
     getTotalPrice: () => number
     clearCart: () => void
   }
+
+  export interface payment {
+    numberPayment: number;
+    totalPayment: number;
+    paymentMethod: string;
+    products: CartItem[];
+    datePayment: string;
+
+  }
