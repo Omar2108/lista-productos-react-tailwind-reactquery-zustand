@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useShoppingCart } from '../store/addToCardStore';
 import { usePaymentStore } from '../store/paymentStore';
-import { CartItem } from '../definitions/definitions';
+import { CartItem, PaymentModalProps  } from '../definitions/definitions';
 
-
-interface PaymentModalProps {
-    onClose: () => void;
-}
 
 const PaymentModal = ({ onClose }: PaymentModalProps) => {
 
@@ -54,16 +50,17 @@ const PaymentModal = ({ onClose }: PaymentModalProps) => {
             })
             updatePaymentNumber(getPaymentNumber() + 1)
             setPaymentStatus('success');
+            alert("¡Comprar realizada con exito!")
             clearCart();
             setPaymentStatus('');
             onClose();
-        }, 2000);
+        }, 1000);
     };
 
 
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-8 rounded-lg w-full md:w-[620px] h-auto md:h-[400px]">
+            <div className="bg-white p-8 rounded-lg w-full md:w-[620px] h-auto md:h-[400px] overflow-auto">
                 <h2 className="text-xl font-bold mb-4">Total a Pagar: ${totalPrice}</h2>
                 <table className="w-full h-auto border-collapse border border-gray-300">
                     <thead>
@@ -79,12 +76,12 @@ const PaymentModal = ({ onClose }: PaymentModalProps) => {
 
 
                         {
-                            items.map(item => {
+                            items.map((item, i) => {
                                 return (
 
                                     <>
-                                        <tr key={item.product.id} className="text-center">
-                                            <td className="border border-gray-300 px-4 py-2">${item.product.title}</td><td className="border border-gray-300 px-4 py-2">${item.product.price}</td><td className="border border-gray-300 px-4 py-2">
+                                        <tr key={i} className="text-center">
+                                            <td className="border border-gray-300 px-4 py-2">{item.product.title}</td><td className="border border-gray-300 px-4 py-2">${item.product.price}</td><td className="border border-gray-300 px-4 py-2">
                                                 <input
                                                     type="number"
                                                     min="1"
@@ -115,10 +112,11 @@ const PaymentModal = ({ onClose }: PaymentModalProps) => {
                 )}
                 <div className="mt-4">
                     <select className="w-full p-2 border border-gray-300 rounded" onChange={(e) => setPaymentMethod(e.target.value)}>
+                    <option value="efectivo">---Select option payment method----</option>
                         <option value="efectivo">Efectivo</option>
-                        <option value="tarjeta">Tarjeta de Crédito</option>
-                        <option value="pasarela">Tarjeta de Debido</option>
-                        <option value="transferencia">Transferencia Bancaria</option>
+                        <option value="tarjeta credito">Tarjeta de Crédito</option>
+                        <option value="tarjeta debito">Tarjeta de Debido</option>
+                        <option value="transferencia bancaria">Transferencia Bancaria</option>
                     </select>
                 </div>
                 <div className="mt-4">

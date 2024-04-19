@@ -35,3 +35,7 @@ export interface CartItem {
     datePayment: string;
 
   }
+
+  export interface PaymentModalProps {
+    onClose: () => void;
+}

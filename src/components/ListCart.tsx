@@ -1,3 +1,4 @@
+
 import { useShoppingCart } from '../store/addToCardStore'
 import CardProductCart from './CardProductCart'
 import CartEmpetyProduct from './CartEmpetyProduct'
@@ -5,10 +6,12 @@ import HeaderCart from './HeaderCart'
 import TotalCartProducts from './TotalCartProducts'
 
 
+
 function ListCart() {
 
+
     const items = useShoppingCart(state => state.items)
-   
+
     return (
 
         <>
@@ -26,7 +29,8 @@ function ListCart() {
                 ))}
             </div>
 
-            {items.length > 0 && <TotalCartProducts />}
+            {items.length > 0 && <TotalCartProducts  />}
+
         </>
 
 
